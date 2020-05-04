@@ -17,8 +17,8 @@
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
     "test": "run-s build test:*",
-    "test:lint": "tslint --project . && prettier \"src/**/*.ts\" --list-different",
-    "test:unit": "nyc --silent ava",
+    "test:lint": "tslint --project .",
+    "test:unit": "nyc ava --verbose",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
     "cov:html": "nyc report --reporter=html",
@@ -49,11 +49,17 @@
   "engines": {
     "node": ">=8.9"
   },
-  "dependencies": {},
+  "dependencies": {
+    "binary-sorted-array": "^1.0.4",
+    "lokijs": "^1.5.8"
+  },
   "devDependencies": {
     "@bitjson/npm-scripts-info": "^1.0.0",
     "@bitjson/typedoc": "^0.15.0-0",
     "@istanbuljs/nyc-config-typescript": "^0.1.3",
+    "@types/lokijs": "^1.5.3",
+    "@types/sinon": "^9.0.0",
+    "@types/uuid": "^7.0.3",
     "ava": "2.2.0",
     "codecov": "^3.5.0",
     "cz-conventional-changelog": "^2.1.0",
@@ -62,12 +68,14 @@
     "nyc": "^14.1.1",
     "open-cli": "^5.0.0",
     "prettier": "^1.18.2",
+    "sinon": "^9.0.2",
     "standard-version": "^6.0.1",
     "trash-cli": "^3.0.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-immutable": "^6.0.1",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "uuid": "^8.0.0"
   },
   "ava": {
     "failFast": true,
