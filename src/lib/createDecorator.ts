@@ -11,6 +11,13 @@ export interface TOldMethod {
   oldMethod: TMethod
 }
 
+/**
+ * Compiles a set of before and after hook methods into a install function that installs the hooks to an object.
+ * When executed, the install function returns an uninstall function that will remove the hooks from the object.
+ * Ensures that the before and after methods are executed according to the specified priorities.
+ * @param hookMethods set of before and after hooks 
+ * @return decorator function
+ */
 export function createDecorator(hookMethods: HookMethods): TDecorator {
   const methodDecorators = new Map<string, TMethodDecorator>()
   hookMethods.forEach((hookMethod, name) => {
