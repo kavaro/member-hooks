@@ -1,11 +1,11 @@
 {
-  "name": "loki-hooks",
+  "name": "member-hooks",
   "version": "1.0.0",
-  "description": "Adds hooks to lokijs to extend its functionality in a modular way",
+  "description": "Add before and after hooks to an object",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/YOUR_GITHUB_USER_NAME/loki-hooks",
+  "repository": "https://github.com/member-hooks/loki-hooks",
   "license": "MIT",
   "keywords": [],
   "scripts": {
@@ -50,7 +50,9 @@
     "node": ">=8.9"
   },
   "dependencies": {
+    "@types/json-stable-stringify": "^1.0.32",
     "binary-sorted-array": "^1.0.4",
+    "json-stable-stringify": "^1.0.1",
     "lokijs": "^1.5.8"
   },
   "devDependencies": {
