@@ -32,8 +32,11 @@ export class Hooks {
    * @param hooks [[registerdNameOfHook1: string, hookOptions1], [registerdNameOfHook2, hookOptions2], ...]
    */
   public install(target: any, hooks: TJSONHook[]): void {
+    const key = hooks ? stringify(hooks) : ''
+    if (target[UNHOOK] && target[UNHOOK].key !== key) {
+      this.uninstall(target)
+    }
     if (!target[UNHOOK] && hooks) {
-      const key = stringify(hooks)
       let decorator = this.decorators.get(key)
       if (!decorator) {
         const hookMethods = new HookMethods()
@@ -48,7 +51,10 @@ export class Hooks {
         decorator = createDecorator(hookMethods)
         this.decorators.set(key, decorator)
       }
-      target[UNHOOK] = decorator(target)
+      target[UNHOOK] = {
+        key,
+        uninstall: decorator(target)
+      }
     }
   }
 
@@ -58,7 +64,7 @@ export class Hooks {
    */
   public uninstall(target: any): void {
     if (target[UNHOOK]) {
-      target[UNHOOK]()
+      target[UNHOOK].uninstall()
       delete target[UNHOOK]
     }
   }

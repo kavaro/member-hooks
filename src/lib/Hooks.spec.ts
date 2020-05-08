@@ -89,6 +89,22 @@ test('install/uninstall: should not install/uninstall hooks twice', t => {
   t.deepEqual(collection.insert({ id: 'id1' }), { id: 'id1' })
 })
 
+test('install/uninstall: should uninstall/install when hooks change and uninstall when hooks are removed', t => {
+  const hooks = new Hooks()
+  hooks.register('seq', seq)
+  const collection = new Collection({
+    hooks: [['seq', { field: 'seq' }]]
+  })
+  hooks.install(collection, collection.hooks)
+  t.deepEqual(collection.insert({ id: 'id1' }), { id: 'id1', seq: 1 })
+  collection.hooks = [['seq', { field: 'seq1' }]]
+  hooks.install(collection, collection.hooks)
+  t.deepEqual(collection.insert({ id: 'id1' }), { id: 'id1', seq1: 2 })
+  delete collection.hooks
+  hooks.install(collection, collection.hooks)
+  t.deepEqual(collection.insert({ id: 'id1' }), { id: 'id1' })
+})
+
 test('install: should throw when factory has not been registered', t => {
   const hooks = new Hooks()
   const collection = new Collection({
