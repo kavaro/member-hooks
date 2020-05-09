@@ -54,9 +54,9 @@ export function createDecorator(hookMethods: HookMethods, destroy: TDestroy): TD
       const beforeMethod = before
       if (after) {
         const afterMethod = after
-        methodDecorator = (oldMethod: TMethod) => function newMethod(this: any, ...args: any[]): any {
-          beforeMethod.call(this, args)
-          return afterMethod.call(this, oldMethod.call(this, ...args), args)
+        methodDecorator = (oldMethod: TMethod) => function newMethod(this: any, ...args: any[]): any {          
+          const context = beforeMethod.call(this, args)
+          return afterMethod.call(this, oldMethod.call(this, ...args), args, context)
         }
       } else {
         methodDecorator = (oldMethod: TMethod) => function (this: any, ...args: any[]): any {

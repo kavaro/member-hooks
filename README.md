@@ -21,6 +21,8 @@ To install/uninstall an array of hooks to an object, call the install/uninstall 
 The hooks to install are specified as an array of ['hookName', hookOptions] arrays.
 Where hookName is the name under which the hook was registered.
 
+The after hook can return a context object that will be passed to the after hook as 3rd argument.
+
 Example:
 ```typescript
 import test from 'ava'
@@ -40,12 +42,15 @@ function ensureNumber(methods: HookMethods, options: { defaultValue: number, des
 function minMax(methods: HookMethods, options: { min: number, max: number }): void {
   const { min, max } = { min: 0, max: 100, ...options }
   // add before hook to 'negative' method at priority 10 (executed after ensureNumber)
-  methods.before('negative', 10, function (args: any[]): void {
+  methods.before('negative', 10, function (args: any[]): TObj<any> {
     args[0] = Math.max(Math.min(args[0], max), min)
+    // return context to be passed to after method
+    return { max }
   })
   // add after hook to 'add' method at priority -100
-  methods.after('add', -100, function (result: number): number {
-    return Math.max(Math.min(result, max), min)
+  methods.after('add', -100, function (result: number, args: any[], context: TObj): number {
+    // use context returned from before method
+    return Math.max(Math.min(result, context.max), min)
   })
 }
 
