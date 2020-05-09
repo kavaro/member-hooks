@@ -1,10 +1,10 @@
 
 import { HookMethods } from './HookMethods'
-import { TMethod, TBeforeMethod, TAfterMethod } from './types'
+import { TMethod, TBeforeMethod, TAfterMethod, TDestroy } from './types'
 
 export type TMethodDecorator = (oldMethod: TMethod) => TMethod
 export type TDecorator = (target: any) => () => void
-export type THookFactory = (methods: HookMethods, options: any) => void
+export type THookFactory = (methods: HookMethods, options: any) => TDestroy | void
 export type TUnhook = () => void
 export interface TOldMethod {
   isOwnProperty: boolean
@@ -16,9 +16,10 @@ export interface TOldMethod {
  * When executed, the install function returns an uninstall function that will remove the hooks from the object.
  * Ensures that the before and after methods are executed according to the specified priorities.
  * @param hookMethods set of before and after hooks 
+ * @param destroy function that calls functions returned from factory function, called at the start of uninstall
  * @return decorator function
  */
-export function createDecorator(hookMethods: HookMethods): TDecorator {
+export function createDecorator(hookMethods: HookMethods, destroy: TDestroy): TDecorator {
   const methodDecorators = new Map<string, TMethodDecorator>()
   hookMethods.forEach((hookMethod, name) => {
     let before: TBeforeMethod | undefined
@@ -84,6 +85,7 @@ export function createDecorator(hookMethods: HookMethods): TDecorator {
       target[name] = decorator(oldMethod)
     })
     return () => {
+      destroy()
       oldMethods.forEach((entry, name) => {
         const { isOwnProperty, oldMethod } = entry
         if (isOwnProperty) {

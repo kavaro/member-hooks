@@ -8,3 +8,5 @@ export type TAfterMethod = (this: any, result: any, args: any[]) => any
 
 export type TJSONHook = [string, TObj<any>]
 
+export type TDestroy = () => void
+

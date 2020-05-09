@@ -24,15 +24,17 @@ Where hookName is the name under which the hook was registered.
 Example:
 ```typescript
 import test from 'ava'
-import { HookMethods, Hooks } from '.'
+import sinon from 'sinon'
+import { HookMethods, Hooks, TDestroy } from '.'
 
-function ensureNumber(methods: HookMethods, options: { defaultValue: number }): void {
-  const { defaultValue } = { defaultValue: 0, ...options }
+function ensureNumber(methods: HookMethods, options: { defaultValue: number, destroySpy: TDestroy }): TDestroy {
+  const { defaultValue, destroySpy } = { defaultValue: 0, ...options }
   // add before hook to 'negative' method at priority 5
   methods.before('negative', 5, function (args: any[]): void {
     const value = args[0]
     args[0] = typeof value === 'number' ? value : defaultValue
   })
+  return destroySpy
 }
 
 function minMax(methods: HookMethods, options: { min: number, max: number }): void {
@@ -67,13 +69,17 @@ test('TestClass', t => {
   const testInstance = new TestClass()
   // The hooks to install are specified as an array of array where the inner array
   // has the format ['hookName', hookOptions]
+  const destroySpy = sinon.spy()
   hooks.install(testInstance, [
     ['minMax', { min: 0, max: 100 }],
-    ['ensureNumber', { defaultValue: 200 }]
+    ['ensureNumber', { defaultValue: 200, destroySpy }]
   ])
 
   t.assert(testInstance.negative(undefined) === -100)
   t.assert(testInstance.add(100, 200) === 100)
+
+  hooks.uninstall(testInstance)
+  t.assert(destroySpy.calledOnce)
 })
 ```
 

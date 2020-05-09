@@ -15,7 +15,7 @@ export class Hooks {
   /**
    * 
    * @param name Register a hook function
-   * @param factoryFn A function that defines the before and after hooks to apply the methods of an object
+   * @param factoryFn A function that defines the before and after hooks to apply the methods of an object and optionally returns a destroy function
    * @param force When false, an error will be thrown if the same hook function is registered multiple times
    */
   public register(name: string, factoryFn: THookFactory, force: boolean = false):void {
@@ -40,15 +40,18 @@ export class Hooks {
       let decorator = this.decorators.get(key)
       if (!decorator) {
         const hookMethods = new HookMethods()
-        hooks.map((hook: TJSONHook) => {
+        const destroys = hooks.map((hook: TJSONHook) => {
           const [name, options] = hook
           const factory = this.factories.get(name)
           if (!factory) {
             throw new Error(`Hook "${name}" has not been registered`)
           }
-          factory(hookMethods, options)
+          return factory(hookMethods, options)
         })
-        decorator = createDecorator(hookMethods)
+        const destroy = () => {
+          destroys.forEach(fn => fn && fn())
+        } 
+        decorator = createDecorator(hookMethods, destroy)
         this.decorators.set(key, decorator)
       }
       target[UNHOOK] = {
@@ -59,7 +62,8 @@ export class Hooks {
   }
 
   /**
-   * Removes all hooks that where installed on a target object
+   * Removes all hooks that where installed on a target object and 
+   * calls the destroy functions optionally returned from the factory functions
    * @param target The object on which hooks have been installed
    */
   public uninstall(target: any): void {
