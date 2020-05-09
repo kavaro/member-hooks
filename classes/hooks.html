@@ -111,17 +111,17 @@
 					<div class="tsd-signature tsd-kind-icon">decorators<span class="tsd-signature-symbol">:</span> <a href="hookmethods.html#map" class="tsd-signature-type">Map</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map&lt;string, TDecorator&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/ca378b3/src/lib/Hooks.ts#L13">src/lib/Hooks.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/24fe6f6/src/lib/Hooks.ts#L13">src/lib/Hooks.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="factories" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> factories</h3>
-					<div class="tsd-signature tsd-kind-icon">factories<span class="tsd-signature-symbol">:</span> <a href="hookmethods.html#map" class="tsd-signature-type">Map</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span>methods<span class="tsd-signature-symbol">: </span><a href="hookmethods.html" class="tsd-signature-type">HookMethods</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map&lt;string, THookFactory&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">factories<span class="tsd-signature-symbol">:</span> <a href="hookmethods.html#map" class="tsd-signature-type">Map</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span>methods<span class="tsd-signature-symbol">: </span><a href="hookmethods.html" class="tsd-signature-type">HookMethods</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../globals.html#tdestroy" class="tsd-signature-type">TDestroy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map&lt;string, THookFactory&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/ca378b3/src/lib/Hooks.ts#L12">src/lib/Hooks.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/24fe6f6/src/lib/Hooks.ts#L12">src/lib/Hooks.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -138,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/ca378b3/src/lib/Hooks.ts#L34">src/lib/Hooks.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/24fe6f6/src/lib/Hooks.ts#L34">src/lib/Hooks.ts:34</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -176,7 +176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/ca378b3/src/lib/Hooks.ts#L21">src/lib/Hooks.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/24fe6f6/src/lib/Hooks.ts#L21">src/lib/Hooks.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,7 +192,7 @@
 								<li>
 									<h5>factoryFn: <a href="../globals.html#thookfactory" class="tsd-signature-type">THookFactory</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>A function that defines the before and after hooks to apply the methods of an object</p>
+										<p>A function that defines the before and after hooks to apply the methods of an object and optionally returns a destroy function</p>
 									</div>
 								</li>
 								<li>
@@ -216,12 +216,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/ca378b3/src/lib/Hooks.ts#L65">src/lib/Hooks.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/24fe6f6/src/lib/Hooks.ts#L69">src/lib/Hooks.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Removes all hooks that where installed on a target object</p>
+									<p>Removes all hooks that where installed on a target object and
+									calls the destroy functions optionally returned from the factory functions</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -305,6 +306,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../globals.html#tdecorator" class="tsd-kind-icon">TDecorator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#tdestroy" class="tsd-kind-icon">TDestroy</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../globals.html#thookfactory" class="tsd-kind-icon">THook<wbr>Factory</a>
