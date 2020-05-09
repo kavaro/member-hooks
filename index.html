@@ -83,6 +83,7 @@ npm install member-hooks</code></pre>
 				<p>To install/uninstall an array of hooks to an object, call the install/uninstall method.
 					The hooks to install are specified as an array of [&#39;hookName&#39;, hookOptions] arrays.
 				Where hookName is the name under which the hook was registered.</p>
+				<p>The after hook can return a context object that will be passed to the after hook as 3rd argument.</p>
 				<p>Example:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> test <span class="hljs-keyword">from</span> <span class="hljs-string">'ava'</span>
 <span class="hljs-keyword">import</span> sinon <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon'</span>
@@ -101,12 +102,15 @@ npm install member-hooks</code></pre>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">minMax</span>(<span class="hljs-params">methods: HookMethods, options: { min: <span class="hljs-built_in">number</span>, max: <span class="hljs-built_in">number</span> }</span>): <span class="hljs-title">void</span> </span>{
   <span class="hljs-keyword">const</span> { min, max } = { min: <span class="hljs-number">0</span>, max: <span class="hljs-number">100</span>, ...options }
   <span class="hljs-comment">// add before hook to 'negative' method at priority 10 (executed after ensureNumber)</span>
-  methods.before(<span class="hljs-string">'negative'</span>, <span class="hljs-number">10</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">args: <span class="hljs-built_in">any</span>[]</span>): <span class="hljs-title">void</span> </span>{
+  methods.before(<span class="hljs-string">'negative'</span>, <span class="hljs-number">10</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">args: <span class="hljs-built_in">any</span>[]</span>): <span class="hljs-title">TObj</span>&lt;<span class="hljs-title">any</span>&gt; </span>{
     args[<span class="hljs-number">0</span>] = <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.min(args[<span class="hljs-number">0</span>], max), min)
+    <span class="hljs-comment">// return context to be passed to after method</span>
+    <span class="hljs-keyword">return</span> { max }
   })
   <span class="hljs-comment">// add after hook to 'add' method at priority -100</span>
-  methods.after(<span class="hljs-string">'add'</span>, <span class="hljs-number">-100</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">result: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">number</span> </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.min(result, max), min)
+  methods.after(<span class="hljs-string">'add'</span>, <span class="hljs-number">-100</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">result: <span class="hljs-built_in">number</span>, args: <span class="hljs-built_in">any</span>[], context: TObj</span>): <span class="hljs-title">number</span> </span>{
+    <span class="hljs-comment">// use context returned from before method</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.min(result, context.max), min)
   })
 }
 
