@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Stores the before and after methods for each method in order of priority.</p>
+						<p>Stores the before, after and at methods for each method in order of priority.</p>
 					</div>
 				</div>
 			</section>
@@ -103,6 +103,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="hookmethods.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hookmethods.html#after" class="tsd-kind-icon">after</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hookmethods.html#at" class="tsd-kind-icon">at</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="hookmethods.html#before" class="tsd-kind-icon">before</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="hookmethods.html#clear" class="tsd-kind-icon">clear</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="hookmethods.html#delete" class="tsd-kind-icon">delete</a></li>
@@ -189,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/56ee567/src/lib/HookMethods.ts#L50">src/lib/HookMethods.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/HookMethods.ts#L52">src/lib/HookMethods.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -202,7 +203,7 @@
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>name of the method to add hte after hook to</p>
+										<p>name of the method to add the after hook to</p>
 									</div>
 								</li>
 								<li>
@@ -223,6 +224,46 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="at" class="tsd-anchor"></a>
+					<h3>at</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">at<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, priority<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, fn<span class="tsd-signature-symbol">: </span><a href="../globals.html#tmethod" class="tsd-signature-type">TMethod</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/HookMethods.ts#L62">src/lib/HookMethods.ts:62</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Replace the method with a hook (the original method will not be called), the hook with highest priority wins</p>
+									</div>
+								</li>
+								<li>
+									<h5>priority: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>priority of the hook</p>
+									</div>
+								</li>
+								<li>
+									<h5>fn: <a href="../globals.html#tmethod" class="tsd-signature-type">TMethod</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the hook method</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="before" class="tsd-anchor"></a>
 					<h3>before</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -232,7 +273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/56ee567/src/lib/HookMethods.ts#L40">src/lib/HookMethods.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/HookMethods.ts#L42">src/lib/HookMethods.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -317,7 +358,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/56ee567/src/lib/HookMethods.ts#L22">src/lib/HookMethods.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/HookMethods.ts#L23">src/lib/HookMethods.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -567,6 +608,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="hookmethods.html#after" class="tsd-kind-icon">after</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="hookmethods.html#at" class="tsd-kind-icon">at</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="hookmethods.html#before" class="tsd-kind-icon">before</a>

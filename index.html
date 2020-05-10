@@ -76,9 +76,10 @@ npm install member-hooks</code></pre>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h1>Usage</h1>
 				</a>
-				<p>A hook is a function that defines a set of before/after hooks on a set of methods of an object.
-					When multiple hooks add before/after hooks to the same method, the priority specified
-				when attaching the hooks determines the order in which they will be executed.</p>
+				<p>A hook is a function that defines a set of before/at/after functions on methods of an object.
+					The before functions, when present, are executed before the method in order of priority.
+					The after functions, when present, are executed after the method in order of priority.
+				The at function with the highest priority, when present, replaces the method</p>
 				<p>Hooks must be registered by calling the register method on an instance of the Hooks class.  </p>
 				<p>To install/uninstall an array of hooks to an object, call the install/uninstall method.
 					The hooks to install are specified as an array of [&#39;hookName&#39;, hookOptions] arrays.
@@ -96,6 +97,8 @@ npm install member-hooks</code></pre>
     <span class="hljs-keyword">const</span> value = args[<span class="hljs-number">0</span>]
     args[<span class="hljs-number">0</span>] = <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'number'</span> ? value : defaultValue
   })
+  <span class="hljs-comment">// uncomment to nest line to defined an "at" function that replaces the method</span>
+  <span class="hljs-comment">// methods.at('negative', 1, function() { return -(value * 2) }) </span>
   <span class="hljs-keyword">return</span> destroySpy
 }
 
