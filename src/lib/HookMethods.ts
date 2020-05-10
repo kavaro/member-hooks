@@ -7,12 +7,13 @@ export interface TPrioritizedHookMethod {
 }
 
 export interface THookMethod {
-  before: BinarySortedArray<TPrioritizedHookMethod>,
+  before: BinarySortedArray<TPrioritizedHookMethod>
+  at: TPrioritizedHookMethod | undefined
   after: BinarySortedArray<TPrioritizedHookMethod>
 }
 
 /**
- * Stores the before and after methods for each method in order of priority.
+ * Stores the before, after and at methods for each method in order of priority.
  */
 export class HookMethods extends Map<string, THookMethod> {
   /**
@@ -24,6 +25,7 @@ export class HookMethods extends Map<string, THookMethod> {
     if (!method) {
       method = {
         before: new BinarySortedArray<TPrioritizedHookMethod>([], (a, b) => a.priority - b.priority),
+        at: undefined,
         after: new BinarySortedArray<TPrioritizedHookMethod>([], (a, b) => a.priority - b.priority)
       }
       this.set(name, method)
@@ -43,11 +45,25 @@ export class HookMethods extends Map<string, THookMethod> {
 
   /**
    * Adds a after hook to a method
-   * @param name name of the method to add hte after hook to
+   * @param name name of the method to add the after hook to
    * @param priority priority of the after hook
    * @param fn the after hook function
    */
   public after(name: string, priority: number, fn: TAfterMethod): void {
     this.ensure(name).after.insert({ priority, fn })
+  }
+
+  /**
+   * 
+   * @param name Replace the method with a hook (the original method will not be called), the hook with highest priority wins
+   * @param priority priority of the hook
+   * @param fn the hook method
+   */
+  public at(name: string, priority: number, fn: TMethod): void {
+    const hookMethod = this.ensure(name)
+    const { at } = hookMethod
+    if (!at || priority >= at.priority) {
+      hookMethod.at = { priority, fn }
+    }
   }
 }

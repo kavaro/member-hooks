@@ -15,6 +15,42 @@ test('should not throw when there are no hooks', t => {
   t.assert(destroy.calledOnce)
 })
 
+test('should create decorator with at hook', t => {
+  const methods = new HookMethods()
+  const result: number[] = []
+  const method = sinon.spy(value => result.push(value))
+  const at = sinon.spy(value => result.push(value + 1))
+  methods.at('a', 10, at)
+  const decorator = createDecorator(methods, sinon.spy())
+  const target = { a: method }
+  decorator(target)
+  target.a(10)
+  t.assert(method.notCalled)
+  t.assert(at.calledOnce)
+  t.deepEqual(result, [11])
+})
+
+test('should create decorator with before hook and at hook', t => {
+  const methods = new HookMethods()
+  const result: number[] = []
+  const method = sinon.spy(value => result.push(value))
+  const before10 = sinon.spy(args => {
+    result.push(args[0])
+    args[0] = args[0] + 1
+  })
+  const at = sinon.spy(value => result.push(value * 2))
+  methods.before('a', 10, before10)
+  methods.at('a', 10, at)
+  const decorator = createDecorator(methods,sinon.spy())
+  const target = { a: method }
+  decorator(target)
+  target.a(10)
+  t.assert(method.notCalled)
+  t.assert(at.calledOnce)
+  t.assert(before10.calledOnce)
+  t.deepEqual(result, [10, 22])
+})
+
 test('should create decorator with single before hook', t => {
   const methods = new HookMethods()
   const result: number[] = []
@@ -55,6 +91,34 @@ test('should create decorator with 2 before hooks', t => {
   t.assert(before1.calledOnce)
   t.assert(before10.calledOnce)
   t.deepEqual(result, [10, 11, 13])
+})
+
+test('should create decorator with after hook and at hook', t => {
+  const methods = new HookMethods()
+  const result: number[] = []
+  const method = sinon.spy(value => {
+    result.push(value)
+    return value + 1
+  })
+  const after10 = sinon.spy((value, args) => {
+    value += args[0]
+    result.push(value)
+    return value
+  })
+  const at = sinon.spy(value => {
+    result.push(value * 2)
+    return value + 1
+  })
+  methods.at('a', 10, at)
+  methods.after('a', 10, after10)
+  const decorator = createDecorator(methods, sinon.spy())
+  const target = { a: method }
+  decorator(target)
+  t.is(target.a(10), 21)
+  t.assert(method.notCalled)
+  t.assert(at.calledOnce)
+  t.assert(after10.calledOnce)
+  t.deepEqual(result, [20, 21])
 })
 
 test('should create decorator with single after hook', t => {
@@ -106,6 +170,40 @@ test('should create decorator with 2 after hooks', t => {
   t.assert(after1.calledOnce)
   t.assert(after10.calledOnce)
   t.deepEqual(result, [10, 21, 31])
+})
+
+test('should create decorator with before, after hook and at hook', t => {
+  const methods = new HookMethods()
+  const result: number[] = []
+  const before1 = sinon.spy(args => {
+    result.push(args[0])
+    args[0] = args[0] + 1
+  })
+  const method = sinon.spy(value => {
+    result.push(value)
+    return value + 1
+  })
+  const at = sinon.spy(value => {
+    result.push(value * 2)
+    return value + 1
+  })
+  const after1 = sinon.spy((value, args) => {
+    value += args[0]
+    result.push(value)
+    return value
+  })
+  methods.before('a', 1, before1)
+  methods.at('a', 1, at)
+  methods.after('a', 1, after1)
+  const decorator = createDecorator(methods, sinon.spy)
+  const target = { a: method }
+  decorator(target)
+  t.is(target.a(10), 23)
+  t.assert(method.notCalled)
+  t.assert(at.calledOnce)
+  t.assert(before1.calledOnce)
+  t.assert(after1.calledOnce)
+  t.deepEqual(result, [10, 22, 23])
 })
 
 test('should create decorator with before and after hook', t => {

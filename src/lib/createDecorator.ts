@@ -12,7 +12,7 @@ export interface TOldMethod {
 }
 
 /**
- * Compiles a set of before and after hook methods into a install function that installs the hooks to an object.
+ * Compiles a set of before, after and at hook methods into a install function that installs the hooks to an object.
  * When executed, the install function returns an uninstall function that will remove the hooks from the object.
  * Ensures that the before and after methods are executed according to the specified priorities.
  * @param hookMethods set of before and after hooks 
@@ -50,24 +50,38 @@ export function createDecorator(hookMethods: HookMethods, destroy: TDestroy): TD
       }, undefined as unknown as TAfterMethod)
     }
     let methodDecorator
+    const at = hookMethod.at?.fn
     if (before) {
       const beforeMethod = before
       if (after) {
         const afterMethod = after
-        methodDecorator = (oldMethod: TMethod) => function newMethod(this: any, ...args: any[]): any {          
-          const context = beforeMethod.call(this, args)
-          return afterMethod.call(this, oldMethod.call(this, ...args), args, context)
+        methodDecorator = (oldMethod: TMethod) => {
+          oldMethod = at || oldMethod
+          return function newMethod(this: any, ...args: any[]): any {
+            const context = beforeMethod.call(this, args)
+            return afterMethod.call(this, oldMethod.call(this, ...args), args, context)
+          }
         }
       } else {
-        methodDecorator = (oldMethod: TMethod) => function (this: any, ...args: any[]): any {
-          beforeMethod.call(this, args)
-          return oldMethod.call(this, ...args)
+        methodDecorator = (oldMethod: TMethod) => {
+          oldMethod = at || oldMethod
+          return function (this: any, ...args: any[]): any {
+            beforeMethod.call(this, args)
+            return (at || oldMethod).call(this, ...args)
+          }
         }
       }
     } else if (after) {
       const afterMethod = after
-      methodDecorator = (oldMethod: TMethod) => function (this: any, ...args: any[]): any {
-        return afterMethod.call(this, oldMethod.call(this, ...args), args)
+      methodDecorator = (oldMethod: TMethod) => {
+        oldMethod = at || oldMethod
+        return function (this: any, ...args: any[]): any {
+          return afterMethod.call(this, (at || oldMethod).call(this, ...args), args)
+        }
+      }
+    } else if (at) {
+      methodDecorator = () => function (this: any, ...args: any[]): any {
+        return at.call(this, ...args)
       }
     }
     if (methodDecorator) {

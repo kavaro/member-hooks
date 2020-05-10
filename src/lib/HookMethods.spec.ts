@@ -52,3 +52,43 @@ test('after: adds a method sorted by priority', t => {
     { priority: 100, fn: after100 }
   ])
 })
+
+test('at: adds a method if it does not exist', t => {
+  const methods = new HookMethods()
+  const at = sinon.spy()
+  methods.at('a', 10, at)
+  t.deepEqual(methods.get('a')?.at, {
+    priority: 10,
+    fn: at
+  })
+})
+
+test('at: replaces a method if it has higher or equal priority', t => {
+  const methods = new HookMethods()
+  const at1 = sinon.spy()
+  const at2 = sinon.spy()
+  const at3 = sinon.spy()
+  methods.at('a', 10, at1)
+  methods.at('a', 100, at2)
+  t.deepEqual(methods.get('a')?.at, {
+    priority: 100,
+    fn: at2
+  })
+  methods.at('a', 100, at3)
+  t.deepEqual(methods.get('a')?.at, {
+    priority: 100,
+    fn: at3
+  })
+})
+
+test('at: does not replace a method if it has lower priority', t => {
+  const methods = new HookMethods()
+  const at1 = sinon.spy()
+  const at2 = sinon.spy()
+  methods.at('a', 10, at1)
+  methods.at('a', 1, at2)
+  t.deepEqual(methods.get('a')?.at, {
+    priority: 10,
+    fn: at1
+  })
+})

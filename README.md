@@ -11,9 +11,10 @@ npm install member-hooks
 
 # Usage
 
-A hook is a function that defines a set of before/after hooks on a set of methods of an object.
-When multiple hooks add before/after hooks to the same method, the priority specified
-when attaching the hooks determines the order in which they will be executed.
+A hook is a function that defines a set of before/at/after functions on methods of an object.
+The before functions, when present, are executed before the method in order of priority.
+The after functions, when present, are executed after the method in order of priority.
+The at function with the highest priority, when present, replaces the method
 
 Hooks must be registered by calling the register method on an instance of the Hooks class.  
 
@@ -36,6 +37,8 @@ function ensureNumber(methods: HookMethods, options: { defaultValue: number, des
     const value = args[0]
     args[0] = typeof value === 'number' ? value : defaultValue
   })
+  // uncomment to nest line to defined an "at" function that replaces the method
+  // methods.at('negative', 1, function() { return -(value * 2) }) 
   return destroySpy
 }
 
