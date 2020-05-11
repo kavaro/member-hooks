@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/member-hooks/loki-hooks/compare/v2.1.2...v3.0.0) (2020-05-11)
+
+
+### Features
+
+* hook factory function optionally returns create and destroy functions ([e46cfc9](https://github.com/member-hooks/loki-hooks/commit/e46cfc9))
+
+
+### BREAKING CHANGES
+
+* Hook factory function now returns object with create and destroy function instead
+of destroy function
+
+
+
 ### [2.1.2](https://github.com/member-hooks/loki-hooks/compare/v2.1.1...v2.1.2) (2020-05-10)
 
 
