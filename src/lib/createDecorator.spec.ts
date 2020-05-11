@@ -6,10 +6,12 @@ test('should not throw when there are no hooks', t => {
   const methods = new HookMethods()
   methods.ensure('a')
   const method = sinon.spy(value => value + 1)
+  const create = sinon.spy()
   const destroy = sinon.spy()
-  const decorator = createDecorator(methods, destroy)
+  const decorator = createDecorator(methods, [{ create, destroy }])
   const target = { a: method }
   const remove = decorator(target)
+  t.assert(create.calledOnce)
   t.is(target.a(10), 11)
   remove()
   t.assert(destroy.calledOnce)
@@ -21,9 +23,11 @@ test('should create decorator with at hook', t => {
   const method = sinon.spy(value => result.push(value))
   const at = sinon.spy(value => result.push(value + 1))
   methods.at('a', 10, at)
-  const decorator = createDecorator(methods, sinon.spy())
+  const create = sinon.spy()
+  const decorator = createDecorator(methods, [{ create }])
   const target = { a: method }
   decorator(target)
+  t.assert(create.calledOnce)
   target.a(10)
   t.assert(method.notCalled)
   t.assert(at.calledOnce)
@@ -41,7 +45,7 @@ test('should create decorator with before hook and at hook', t => {
   const at = sinon.spy(value => result.push(value * 2))
   methods.before('a', 10, before10)
   methods.at('a', 10, at)
-  const decorator = createDecorator(methods,sinon.spy())
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   target.a(10)
@@ -60,7 +64,7 @@ test('should create decorator with single before hook', t => {
     args[0] = args[0] + 1
   })
   methods.before('a', 10, before10)
-  const decorator = createDecorator(methods,sinon.spy())
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   target.a(10)
@@ -83,7 +87,7 @@ test('should create decorator with 2 before hooks', t => {
   })
   methods.before('a', 1, before1)
   methods.before('a', 10, before10)
-  const decorator = createDecorator(methods, sinon.spy())
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   target.a(10)
@@ -111,7 +115,7 @@ test('should create decorator with after hook and at hook', t => {
   })
   methods.at('a', 10, at)
   methods.after('a', 10, after10)
-  const decorator = createDecorator(methods, sinon.spy())
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   t.is(target.a(10), 21)
@@ -134,7 +138,7 @@ test('should create decorator with single after hook', t => {
     return value
   })
   methods.after('a', 10, after10)
-  const decorator = createDecorator(methods, sinon.spy())
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   t.is(target.a(10), 21)
@@ -162,7 +166,7 @@ test('should create decorator with 2 after hooks', t => {
   })
   methods.after('a', 1, after1)
   methods.after('a', 10, after10)
-  const decorator = createDecorator(methods, sinon.spy())
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   t.is(target.a(10), 31)
@@ -195,7 +199,7 @@ test('should create decorator with before, after hook and at hook', t => {
   methods.before('a', 1, before1)
   methods.at('a', 1, at)
   methods.after('a', 1, after1)
-  const decorator = createDecorator(methods, sinon.spy)
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   t.is(target.a(10), 23)
@@ -224,7 +228,7 @@ test('should create decorator with before and after hook', t => {
   })
   methods.before('a', 1, before1)
   methods.after('a', 1, after1)
-  const decorator = createDecorator(methods, sinon.spy)
+  const decorator = createDecorator(methods, [])
   const target = { a: method }
   decorator(target)
   t.is(target.a(10), 23)
@@ -236,17 +240,17 @@ test('should create decorator with before and after hook', t => {
 
 test('should return function that removes decorator', t => {
   const methods = new HookMethods()
-  function b():void {}
+  function b(): void { }
   class T {
-    public b: ()=>void = b
-    public a():void {}
+    public b: () => void = b
+    public a(): void { }
   }
-  const beforeA = sinon.spy(() => {})
+  const beforeA = sinon.spy(() => { })
   const afterB = sinon.spy(value => value)
-  methods.before('a', 1, beforeA) 
-  methods.after('b', 1, afterB) 
+  methods.before('a', 1, beforeA)
+  methods.after('b', 1, afterB)
   const destroy = sinon.spy()
-  const decorator = createDecorator(methods, destroy)
+  const decorator = createDecorator(methods, [{ destroy }])
   const target = new T()
   t.assert(target.a === T.prototype.a)
   t.assert(target.b === b)

@@ -1,7 +1,7 @@
 import stringify from 'json-stable-stringify'
 import { HookMethods } from './HookMethods'
 import { createDecorator, THookFactory, TDecorator } from './createDecorator'
-import { TJSONHook } from './types'
+import { TJSONHook, TCreateDestroy } from './types'
 
 const UNHOOK = Symbol()
 
@@ -15,7 +15,7 @@ export class Hooks {
   /**
    * 
    * @param name Register a hook function
-   * @param factoryFn A function that defines the before and after hooks to apply the methods of an object and optionally returns a destroy function
+   * @param factoryFn A function that defines the before and after hooks to apply the methods of an object and optionally returns a create/destroy function, called at install/uninstall
    * @param force When false, an error will be thrown if the same hook function is registered multiple times
    */
   public register(name: string, factoryFn: THookFactory, force: boolean = false):void {
@@ -40,18 +40,15 @@ export class Hooks {
       let decorator = this.decorators.get(key)
       if (!decorator) {
         const hookMethods = new HookMethods()
-        const destroys = hooks.map((hook: TJSONHook) => {
+        const createDestroys: TCreateDestroy[] = hooks.map((hook: TJSONHook) => {
           const [name, options] = hook
           const factory = this.factories.get(name)
           if (!factory) {
             throw new Error(`Hook "${name}" has not been registered`)
           }
-          return factory(hookMethods, options)
+          return factory(hookMethods, options) || {}
         })
-        const destroy = () => {
-          destroys.forEach(fn => fn && fn())
-        } 
-        decorator = createDecorator(hookMethods, destroy)
+        decorator = createDecorator(hookMethods, createDestroys)
         this.decorators.set(key, decorator)
       }
       target[UNHOOK] = {
