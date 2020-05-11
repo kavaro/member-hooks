@@ -84,6 +84,7 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface"><a href="interfaces/tcreatedestroy.html" class="tsd-kind-icon">TCreate<wbr>Destroy</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/thookmethod.html" class="tsd-kind-icon">THook<wbr>Method</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/tidoptions.html" class="tsd-kind-icon">TId<wbr>Options</a></li>
 								<li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/tobj.html" class="tsd-kind-icon">TObj</a></li>
@@ -97,6 +98,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias"><a href="globals.html#taftermethod" class="tsd-kind-icon">TAfter<wbr>Method</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#tbeforemethod" class="tsd-kind-icon">TBefore<wbr>Method</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#tcreate" class="tsd-kind-icon">TCreate</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#tdecorator" class="tsd-kind-icon">TDecorator</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#tdestroy" class="tsd-kind-icon">TDestroy</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#thookfactory" class="tsd-kind-icon">THook<wbr>Factory</a></li>
@@ -131,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">TAfter<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span>, context<span class="tsd-signature-symbol">: </span><a href="interfaces/tobj.html" class="tsd-signature-type">TObj</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/types.ts#L7">src/lib/types.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/types.ts#L7">src/lib/types.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -171,7 +173,7 @@
 					<div class="tsd-signature tsd-kind-icon">TBefore<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="interfaces/tobj.html" class="tsd-signature-type">TObj</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/types.ts#L6">src/lib/types.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/types.ts#L6">src/lib/types.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -200,12 +202,43 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="tcreate" class="tsd-anchor"></a>
+					<h3>TCreate</h3>
+					<div class="tsd-signature tsd-kind-icon">TCreate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/types.ts#L11">src/lib/types.ts:11</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>target: <span class="tsd-signature-type">any</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="tdecorator" class="tsd-anchor"></a>
 					<h3>TDecorator</h3>
 					<div class="tsd-signature tsd-kind-icon">TDecorator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/createDecorator.ts#L6">src/lib/createDecorator.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/createDecorator.ts#L6">src/lib/createDecorator.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -248,7 +281,7 @@
 					<div class="tsd-signature tsd-kind-icon">TDestroy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/types.ts#L11">src/lib/types.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/types.ts#L12">src/lib/types.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -270,10 +303,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="thookfactory" class="tsd-anchor"></a>
 					<h3>THook<wbr>Factory</h3>
-					<div class="tsd-signature tsd-kind-icon">THook<wbr>Factory<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>methods<span class="tsd-signature-symbol">: </span><a href="classes/hookmethods.html" class="tsd-signature-type">HookMethods</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="globals.html#tdestroy" class="tsd-signature-type">TDestroy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></div>
+					<div class="tsd-signature tsd-kind-icon">THook<wbr>Factory<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>methods<span class="tsd-signature-symbol">: </span><a href="classes/hookmethods.html" class="tsd-signature-type">HookMethods</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="interfaces/tcreatedestroy.html" class="tsd-signature-type">TCreateDestroy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/createDecorator.ts#L7">src/lib/createDecorator.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/createDecorator.ts#L7">src/lib/createDecorator.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -281,7 +314,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-signature">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>methods<span class="tsd-signature-symbol">: </span><a href="classes/hookmethods.html" class="tsd-signature-type">HookMethods</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#tdestroy" class="tsd-signature-type">TDestroy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>methods<span class="tsd-signature-symbol">: </span><a href="classes/hookmethods.html" class="tsd-signature-type">HookMethods</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/tcreatedestroy.html" class="tsd-signature-type">TCreateDestroy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -294,7 +327,7 @@
 												<h5>options: <span class="tsd-signature-type">any</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="globals.html#tdestroy" class="tsd-signature-type">TDestroy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></h4>
+										<h4 class="tsd-returns-title">Returns <a href="interfaces/tcreatedestroy.html" class="tsd-signature-type">TCreateDestroy</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></h4>
 									</li>
 								</ul>
 							</li>
@@ -307,7 +340,7 @@
 					<div class="tsd-signature tsd-kind-icon">TJSONHook<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="interfaces/tobj.html" class="tsd-signature-type">TObj</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/types.ts#L9">src/lib/types.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/types.ts#L9">src/lib/types.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -317,7 +350,7 @@
 					<div class="tsd-signature tsd-kind-icon">TMethod<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/types.ts#L5">src/lib/types.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/types.ts#L5">src/lib/types.ts:5</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -351,7 +384,7 @@
 					<div class="tsd-signature tsd-kind-icon">TMethod<wbr>Decorator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>oldMethod<span class="tsd-signature-symbol">: </span><a href="globals.html#tmethod" class="tsd-signature-type">TMethod</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="globals.html#tmethod" class="tsd-signature-type">TMethod</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/createDecorator.ts#L5">src/lib/createDecorator.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/createDecorator.ts#L5">src/lib/createDecorator.ts:5</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -382,7 +415,7 @@
 					<div class="tsd-signature tsd-kind-icon">TUnhook<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/createDecorator.ts#L8">src/lib/createDecorator.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/createDecorator.ts#L8">src/lib/createDecorator.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -410,7 +443,7 @@
 					<div class="tsd-signature tsd-kind-icon">UNHOOK<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">unique symbol</span><span class="tsd-signature-symbol"> = Symbol()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/Hooks.ts#L6">src/lib/Hooks.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/Hooks.ts#L6">src/lib/Hooks.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -421,13 +454,13 @@
 					<a name="createdecorator" class="tsd-anchor"></a>
 					<h3>create<wbr>Decorator</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Decorator<span class="tsd-signature-symbol">(</span>hookMethods<span class="tsd-signature-symbol">: </span><a href="classes/hookmethods.html" class="tsd-signature-type">HookMethods</a>, destroy<span class="tsd-signature-symbol">: </span><a href="globals.html#tdestroy" class="tsd-signature-type">TDestroy</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#tdecorator" class="tsd-signature-type">TDecorator</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Decorator<span class="tsd-signature-symbol">(</span>hookMethods<span class="tsd-signature-symbol">: </span><a href="classes/hookmethods.html" class="tsd-signature-type">HookMethods</a>, createDestroys<span class="tsd-signature-symbol">: </span><a href="interfaces/tcreatedestroy.html" class="tsd-signature-type">TCreateDestroy</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#tdecorator" class="tsd-signature-type">TDecorator</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/createDecorator.ts#L22">src/lib/createDecorator.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/createDecorator.ts#L22">src/lib/createDecorator.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -446,10 +479,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>destroy: <a href="globals.html#tdestroy" class="tsd-signature-type">TDestroy</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>function that calls functions returned from factory function, called at the start of uninstall</p>
-									</div>
+									<h5>createDestroys: <a href="interfaces/tcreatedestroy.html" class="tsd-signature-type">TCreateDestroy</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="globals.html#tdecorator" class="tsd-signature-type">TDecorator</a></h4>
@@ -467,7 +497,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/Hooks.spec.ts#L9">src/lib/Hooks.spec.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/Hooks.spec.ts#L9">src/lib/Hooks.spec.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -493,7 +523,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/fa0f20e/src/lib/Hooks.spec.ts#L23">src/lib/Hooks.spec.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/kavaro/member-hooks/blob/e46cfc9/src/lib/Hooks.spec.ts#L23">src/lib/Hooks.spec.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -534,6 +564,9 @@
 						<a href="classes/hooks.html" class="tsd-kind-icon">Hooks</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/tcreatedestroy.html" class="tsd-kind-icon">TCreate<wbr>Destroy</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/thookmethod.html" class="tsd-kind-icon">THook<wbr>Method</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -556,6 +589,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#tbeforemethod" class="tsd-kind-icon">TBefore<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tcreate" class="tsd-kind-icon">TCreate</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#tdecorator" class="tsd-kind-icon">TDecorator</a>
