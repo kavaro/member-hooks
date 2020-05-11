@@ -85,35 +85,32 @@ npm install member-hooks</code></pre>
 					The hooks to install are specified as an array of [&#39;hookName&#39;, hookOptions] arrays.
 				Where hookName is the name under which the hook was registered.</p>
 				<p>The after hook can return a context object that will be passed to the after hook as 3rd argument.</p>
+				<p>A hook function can optionally return a create function that will be called at install.
+				This create function can optionally return a destroy function that will be call at uninstall.</p>
 				<p>Example:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> test <span class="hljs-keyword">from</span> <span class="hljs-string">'ava'</span>
 <span class="hljs-keyword">import</span> sinon <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon'</span>
-<span class="hljs-keyword">import</span> { HookMethods, Hooks, TDestroy } <span class="hljs-keyword">from</span> <span class="hljs-string">'.'</span>
+<span class="hljs-keyword">import</span> { HookMethods, Hooks, TCreate } <span class="hljs-keyword">from</span> <span class="hljs-string">'.'</span>
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ensureNumber</span>(<span class="hljs-params">methods: HookMethods, options: { defaultValue: <span class="hljs-built_in">number</span>, destroySpy: TDestroy }</span>): <span class="hljs-title">TDestroy</span> </span>{
-  <span class="hljs-keyword">const</span> { defaultValue, destroySpy } = { defaultValue: <span class="hljs-number">0</span>, ...options }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ensureNumber</span>(<span class="hljs-params">methods: HookMethods, options: { defaultValue: <span class="hljs-built_in">number</span>, createSpy: TCreate }</span>): <span class="hljs-title">TCreate</span> </span>{
+  <span class="hljs-keyword">const</span> { defaultValue, createSpy } = { defaultValue: <span class="hljs-number">0</span>, ...options }
   <span class="hljs-comment">// add before hook to 'negative' method at priority 5</span>
   methods.before(<span class="hljs-string">'negative'</span>, <span class="hljs-number">5</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">args: <span class="hljs-built_in">any</span>[]</span>): <span class="hljs-title">void</span> </span>{
     <span class="hljs-keyword">const</span> value = args[<span class="hljs-number">0</span>]
     args[<span class="hljs-number">0</span>] = <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'number'</span> ? value : defaultValue
   })
-  <span class="hljs-comment">// uncomment to nest line to defined an "at" function that replaces the method</span>
-  <span class="hljs-comment">// methods.at('negative', 1, function() { return -(value * 2) }) </span>
-  <span class="hljs-keyword">return</span> destroySpy
+  <span class="hljs-keyword">return</span> createSpy
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">minMax</span>(<span class="hljs-params">methods: HookMethods, options: { min: <span class="hljs-built_in">number</span>, max: <span class="hljs-built_in">number</span> }</span>): <span class="hljs-title">void</span> </span>{
   <span class="hljs-keyword">const</span> { min, max } = { min: <span class="hljs-number">0</span>, max: <span class="hljs-number">100</span>, ...options }
   <span class="hljs-comment">// add before hook to 'negative' method at priority 10 (executed after ensureNumber)</span>
-  methods.before(<span class="hljs-string">'negative'</span>, <span class="hljs-number">10</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">args: <span class="hljs-built_in">any</span>[]</span>): <span class="hljs-title">TObj</span>&lt;<span class="hljs-title">any</span>&gt; </span>{
+  methods.before(<span class="hljs-string">'negative'</span>, <span class="hljs-number">10</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">args: <span class="hljs-built_in">any</span>[]</span>): <span class="hljs-title">void</span> </span>{
     args[<span class="hljs-number">0</span>] = <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.min(args[<span class="hljs-number">0</span>], max), min)
-    <span class="hljs-comment">// return context to be passed to after method</span>
-    <span class="hljs-keyword">return</span> { max }
   })
   <span class="hljs-comment">// add after hook to 'add' method at priority -100</span>
-  methods.after(<span class="hljs-string">'add'</span>, <span class="hljs-number">-100</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">result: <span class="hljs-built_in">number</span>, args: <span class="hljs-built_in">any</span>[], context: TObj</span>): <span class="hljs-title">number</span> </span>{
-    <span class="hljs-comment">// use context returned from before method</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.min(result, context.max), min)
+  methods.after(<span class="hljs-string">'add'</span>, <span class="hljs-number">-100</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">result: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">number</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.min(result, max), min)
   })
 }
 
@@ -138,9 +135,10 @@ test(<span class="hljs-string">'TestClass'</span>, <span class="hljs-function"><
   <span class="hljs-comment">// The hooks to install are specified as an array of array where the inner array</span>
   <span class="hljs-comment">// has the format ['hookName', hookOptions]</span>
   <span class="hljs-keyword">const</span> destroySpy = sinon.spy()
+  <span class="hljs-keyword">const</span> createSpy = sinon.spy(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> destroySpy)
   hooks.install(testInstance, [
     [<span class="hljs-string">'minMax'</span>, { min: <span class="hljs-number">0</span>, max: <span class="hljs-number">100</span> }],
-    [<span class="hljs-string">'ensureNumber'</span>, { defaultValue: <span class="hljs-number">200</span>, destroySpy }]
+    [<span class="hljs-string">'ensureNumber'</span>, { defaultValue: <span class="hljs-number">200</span>, createSpy }]
   ])
 
   t.assert(testInstance.negative(<span class="hljs-literal">undefined</span>) === <span class="hljs-number">-100</span>)
@@ -205,9 +203,6 @@ test(<span class="hljs-string">'TestClass'</span>, <span class="hljs-function"><
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/hooks.html" class="tsd-kind-icon">Hooks</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/tcreatedestroy.html" class="tsd-kind-icon">TCreate<wbr>Destroy</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/thookmethod.html" class="tsd-kind-icon">THook<wbr>Method</a>
