@@ -1,7 +1,7 @@
 import stringify from 'json-stable-stringify'
 import { HookMethods } from './HookMethods'
 import { createDecorator, THookFactory, TDecorator } from './createDecorator'
-import { TJSONHook, TCreateDestroy } from './types'
+import { TJSONHook, TCreate } from './types'
 
 const UNHOOK = Symbol()
 
@@ -28,6 +28,7 @@ export class Hooks {
   /**
    * Adds an array of hooks to a target object
    * When called multiple times (with or without different hooks), only the first install will be executed.
+   * Calls the create functions optionally returned from the hook factory functions.
    * @param target The target object
    * @param hooks [[registerdNameOfHook1: string, hookOptions1], [registerdNameOfHook2, hookOptions2], ...]
    */
@@ -40,15 +41,15 @@ export class Hooks {
       let decorator = this.decorators.get(key)
       if (!decorator) {
         const hookMethods = new HookMethods()
-        const createDestroys: TCreateDestroy[] = hooks.map((hook: TJSONHook) => {
+        const creates: Array<TCreate | void> = hooks.map((hook: TJSONHook) => {
           const [name, options] = hook
           const factory = this.factories.get(name)
           if (!factory) {
             throw new Error(`Hook "${name}" has not been registered`)
           }
-          return factory(hookMethods, options) || {}
+          return factory(hookMethods, options)
         })
-        decorator = createDecorator(hookMethods, createDestroys)
+        decorator = createDecorator(hookMethods, creates)
         this.decorators.set(key, decorator)
       }
       target[UNHOOK] = {
@@ -60,7 +61,7 @@ export class Hooks {
 
   /**
    * Removes all hooks that where installed on a target object and 
-   * calls the destroy functions optionally returned from the factory functions
+   * calls the destroy functions optionally returned from the create functions of the factory functions
    * @param target The object on which hooks have been installed
    */
   public uninstall(target: any): void {

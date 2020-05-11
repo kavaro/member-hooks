@@ -24,36 +24,34 @@ Where hookName is the name under which the hook was registered.
 
 The after hook can return a context object that will be passed to the after hook as 3rd argument.
 
+A hook function can optionally return a create function that will be called at install.
+This create function can optionally return a destroy function that will be call at uninstall.
+
 Example:
 ```typescript
 import test from 'ava'
 import sinon from 'sinon'
-import { HookMethods, Hooks, TDestroy } from '.'
+import { HookMethods, Hooks, TCreate } from '.'
 
-function ensureNumber(methods: HookMethods, options: { defaultValue: number, destroySpy: TDestroy }): TDestroy {
-  const { defaultValue, destroySpy } = { defaultValue: 0, ...options }
+function ensureNumber(methods: HookMethods, options: { defaultValue: number, createSpy: TCreate }): TCreate {
+  const { defaultValue, createSpy } = { defaultValue: 0, ...options }
   // add before hook to 'negative' method at priority 5
   methods.before('negative', 5, function (args: any[]): void {
     const value = args[0]
     args[0] = typeof value === 'number' ? value : defaultValue
   })
-  // uncomment to nest line to defined an "at" function that replaces the method
-  // methods.at('negative', 1, function() { return -(value * 2) }) 
-  return destroySpy
+  return createSpy
 }
 
 function minMax(methods: HookMethods, options: { min: number, max: number }): void {
   const { min, max } = { min: 0, max: 100, ...options }
   // add before hook to 'negative' method at priority 10 (executed after ensureNumber)
-  methods.before('negative', 10, function (args: any[]): TObj<any> {
+  methods.before('negative', 10, function (args: any[]): void {
     args[0] = Math.max(Math.min(args[0], max), min)
-    // return context to be passed to after method
-    return { max }
   })
   // add after hook to 'add' method at priority -100
-  methods.after('add', -100, function (result: number, args: any[], context: TObj): number {
-    // use context returned from before method
-    return Math.max(Math.min(result, context.max), min)
+  methods.after('add', -100, function (result: number): number {
+    return Math.max(Math.min(result, max), min)
   })
 }
 
@@ -78,9 +76,10 @@ test('TestClass', t => {
   // The hooks to install are specified as an array of array where the inner array
   // has the format ['hookName', hookOptions]
   const destroySpy = sinon.spy()
+  const createSpy = sinon.spy(() => destroySpy)
   hooks.install(testInstance, [
     ['minMax', { min: 0, max: 100 }],
-    ['ensureNumber', { defaultValue: 200, destroySpy }]
+    ['ensureNumber', { defaultValue: 200, createSpy }]
   ])
 
   t.assert(testInstance.negative(undefined) === -100)

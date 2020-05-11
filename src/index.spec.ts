@@ -1,15 +1,15 @@
 import test from 'ava'
 import sinon from 'sinon'
-import { HookMethods, Hooks, TCreate, TDestroy, TCreateDestroy } from '.'
+import { HookMethods, Hooks, TCreate } from '.'
 
-function ensureNumber(methods: HookMethods, options: { defaultValue: number, createSpy: TCreate, destroySpy: TDestroy }): TCreateDestroy {
-  const { defaultValue, createSpy, destroySpy } = { defaultValue: 0, ...options }
+function ensureNumber(methods: HookMethods, options: { defaultValue: number, createSpy: TCreate }): TCreate {
+  const { defaultValue, createSpy } = { defaultValue: 0, ...options }
   // add before hook to 'negative' method at priority 5
   methods.before('negative', 5, function (args: any[]): void {
     const value = args[0]
     args[0] = typeof value === 'number' ? value : defaultValue
   })
-  return {create: createSpy, destroy: destroySpy }
+  return createSpy
 }
 
 function minMax(methods: HookMethods, options: { min: number, max: number }): void {
@@ -44,11 +44,11 @@ test('TestClass', t => {
   const testInstance = new TestClass()
   // The hooks to install are specified as an array of array where the inner array
   // has the format ['hookName', hookOptions]
-  const createSpy = sinon.spy()
   const destroySpy = sinon.spy()
+  const createSpy = sinon.spy(() => destroySpy)
   hooks.install(testInstance, [
     ['minMax', { min: 0, max: 100 }],
-    ['ensureNumber', { defaultValue: 200, createSpy, destroySpy }]
+    ['ensureNumber', { defaultValue: 200, createSpy }]
   ])
 
   t.assert(testInstance.negative(undefined) === -100)

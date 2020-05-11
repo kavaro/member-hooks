@@ -1,10 +1,10 @@
 
 import { HookMethods } from './HookMethods'
-import { TMethod, TBeforeMethod, TAfterMethod, TCreate, TDestroy, TCreateDestroy } from './types'
+import { TMethod, TBeforeMethod, TAfterMethod, TCreate } from './types'
 
 export type TMethodDecorator = (oldMethod: TMethod) => TMethod
 export type TDecorator = (target: any) => () => void
-export type THookFactory = (methods: HookMethods, options: any) => TCreateDestroy | void
+export type THookFactory = (methods: HookMethods, options: any) => TCreate | void
 export type TUnhook = () => void
 export interface TOldMethod {
   isOwnProperty: boolean
@@ -15,11 +15,13 @@ export interface TOldMethod {
  * Compiles a set of before, after and at hook methods into a install function that installs the hooks to an object.
  * When executed, the install function returns an uninstall function that will remove the hooks from the object.
  * Ensures that the before and after methods are executed according to the specified priorities.
+ * On install the create functions optionally returned from the factory functions are executed.
+ * On uninstall the destroy function optionally returned from the create functions are executed.
  * @param hookMethods set of before and after hooks 
  * @param createDestroy array of create and destroy functions, install functions are called after install, destroy function after uninstall
  * @return decorator function
  */
-export function createDecorator(hookMethods: HookMethods, createDestroys: TCreateDestroy[]): TDecorator {
+export function createDecorator(hookMethods: HookMethods, creates: Array<TCreate | void>): TDecorator {
   const methodDecorators = new Map<string, TMethodDecorator>()
   hookMethods.forEach((hookMethod, name) => {
     let before: TBeforeMethod | undefined
@@ -88,20 +90,8 @@ export function createDecorator(hookMethods: HookMethods, createDestroys: TCreat
       methodDecorators.set(name, methodDecorator)
     }
   })
-  const creates: TCreate[] = []
-  const destroys: TDestroy[] = []
-  createDestroys.forEach(createDestroy => {
-    if (createDestroy.create) {
-      creates.push(createDestroy.create)
-    }
-    if (createDestroy.destroy) {
-      destroys.push(createDestroy.destroy)
-    }
-  })
-  const create = (target: any) => creates.forEach(fn => fn && fn(target)) 
-  const destroy = (target: any) => destroys.forEach(fn => fn && fn(target)) 
   return (target: any): TUnhook => {
-    create(target)
+    const destroys = creates.map(fn => fn && fn(target))
     const oldMethods = new Map<string, TOldMethod>()
     methodDecorators.forEach((decorator, name) => {
       const oldMethod = target[name]
@@ -112,7 +102,7 @@ export function createDecorator(hookMethods: HookMethods, createDestroys: TCreat
       target[name] = decorator(oldMethod)
     })
     return () => {
-      destroy(target)
+      destroys.map(fn => fn && fn())
       oldMethods.forEach((entry, name) => {
         const { isOwnProperty, oldMethod } = entry
         if (isOwnProperty) {
