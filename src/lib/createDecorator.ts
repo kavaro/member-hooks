@@ -99,7 +99,7 @@ export function createDecorator(hookMethods: HookMethods, createDestroys: TCreat
     }
   })
   const create = (target: any) => creates.forEach(fn => fn && fn(target)) 
-  const destroy = () => destroys.forEach(fn => fn && fn()) 
+  const destroy = (target: any) => destroys.forEach(fn => fn && fn(target)) 
   return (target: any): TUnhook => {
     create(target)
     const oldMethods = new Map<string, TOldMethod>()
@@ -112,7 +112,7 @@ export function createDecorator(hookMethods: HookMethods, createDestroys: TCreat
       target[name] = decorator(oldMethod)
     })
     return () => {
-      destroy()
+      destroy(target)
       oldMethods.forEach((entry, name) => {
         const { isOwnProperty, oldMethod } = entry
         if (isOwnProperty) {
