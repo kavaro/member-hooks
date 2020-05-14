@@ -1,6 +1,6 @@
 {
   "name": "member-hooks",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Add before and after hooks to an object",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
