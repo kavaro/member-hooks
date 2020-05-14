@@ -86,7 +86,8 @@ npm install member-hooks</code></pre>
 				Where hookName is the name under which the hook was registered.</p>
 				<p>The after hook can return a context object that will be passed to the after hook as 3rd argument.</p>
 				<p>A hook function can optionally return a create function that will be called at install.
-				This create function can optionally return a destroy function that will be call at uninstall.</p>
+					This create function can optionally return a destroy function that will be call at uninstall.
+				The create function receives the target and optional context argument passed to install.</p>
 				<p>Example:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> test <span class="hljs-keyword">from</span> <span class="hljs-string">'ava'</span>
 <span class="hljs-keyword">import</span> sinon <span class="hljs-keyword">from</span> <span class="hljs-string">'sinon'</span>
@@ -254,6 +255,9 @@ test(<span class="hljs-string">'TestClass'</span>, <span class="hljs-function"><
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#unhook" class="tsd-kind-icon">UNHOOK</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contexthook" class="tsd-kind-icon">context<wbr>Hook</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#createdecorator" class="tsd-kind-icon">create<wbr>Decorator</a>
