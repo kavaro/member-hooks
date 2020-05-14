@@ -31,8 +31,9 @@ export class Hooks {
    * Calls the create functions optionally returned from the hook factory functions.
    * @param target The target object
    * @param hooks [[registerdNameOfHook1: string, hookOptions1], [registerdNameOfHook2, hookOptions2], ...]
+   * @param context Additional info that optionally can be passed to hook at install time
    */
-  public install(target: any, hooks: TJSONHook[]): void {
+  public install(target: any, hooks: TJSONHook[], context?: any): void {
     const key = hooks ? stringify(hooks) : ''
     if (target[UNHOOK] && target[UNHOOK].key !== key) {
       this.uninstall(target)
@@ -54,7 +55,7 @@ export class Hooks {
       }
       target[UNHOOK] = {
         key,
-        uninstall: decorator(target)
+        uninstall: decorator(target, context)
       }
     }
   }

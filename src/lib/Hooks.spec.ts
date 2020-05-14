@@ -1,6 +1,7 @@
 import test from 'ava'
+import sinon from 'sinon'
 import { v4 as uuid } from 'uuid'
-import { HookMethods, Hooks, TObj, TJSONHook } from '..'
+import { HookMethods, Hooks, TObj, TJSONHook, TCreate } from '..'
 
 interface TIdOptions {
   field: string
@@ -27,6 +28,12 @@ function seq(methods: HookMethods, options?: TSeqOptions): void {
     const doc = args[0]
     doc[field] = state[key] = (state[key] || 0) + 1
   })
+}
+
+function contextHook(): TCreate {
+  return function(target: any, context: (target: any) => void):void {
+    context(target)
+  }
 }
 
 class Collection {
@@ -126,4 +133,16 @@ test('install: should reuse decorator when possible', t => {
   hooks.install(collection2, collection2.hooks)
   t.deepEqual(collection1.insert({ id: 'id1' }), { id: 'id1', seq: 1 })
   t.deepEqual(collection2.insert({ id: 'id1' }), { id: 'id1', seq: 1 })  
+})
+
+test('install: should pass context to create function', t => {
+  const hooks = new Hooks()
+  hooks.register('context', contextHook)
+  const collection = new Collection({
+    hooks: [['context', {}]]
+  })
+  const contextSpy = sinon.spy()
+  hooks.install(collection, collection.hooks, contextSpy)
+  t.assert(contextSpy.calledOnce)
+  t.is(contextSpy.getCall(0).args[0], collection)
 })

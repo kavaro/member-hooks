@@ -26,6 +26,7 @@ The after hook can return a context object that will be passed to the after hook
 
 A hook function can optionally return a create function that will be called at install.
 This create function can optionally return a destroy function that will be call at uninstall.
+The create function receives the target and optional context argument passed to install.
 
 Example:
 ```typescript

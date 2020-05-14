@@ -3,7 +3,7 @@ import { HookMethods } from './HookMethods'
 import { TMethod, TBeforeMethod, TAfterMethod, TCreate } from './types'
 
 export type TMethodDecorator = (oldMethod: TMethod) => TMethod
-export type TDecorator = (target: any) => () => void
+export type TDecorator = (target: any, context?: any) => () => void
 export type THookFactory = (methods: HookMethods, options: any) => TCreate | void
 export type TUnhook = () => void
 export interface TOldMethod {
@@ -18,7 +18,7 @@ export interface TOldMethod {
  * On install the create functions optionally returned from the factory functions are executed.
  * On uninstall the destroy function optionally returned from the create functions are executed.
  * @param hookMethods set of before and after hooks 
- * @param createDestroy array of create and destroy functions, install functions are called after install, destroy function after uninstall
+ * @param creates array of create functions, called after install, returned destroy functions are called after uninstall
  * @return decorator function
  */
 export function createDecorator(hookMethods: HookMethods, creates: Array<TCreate | void>): TDecorator {
@@ -90,8 +90,8 @@ export function createDecorator(hookMethods: HookMethods, creates: Array<TCreate
       methodDecorators.set(name, methodDecorator)
     }
   })
-  return (target: any): TUnhook => {
-    const destroys = creates.map(fn => fn && fn(target))
+  return (target: any, context?: any): TUnhook => {
+    const destroys = creates.map(fn => fn && fn(target, context))
     const oldMethods = new Map<string, TOldMethod>()
     methodDecorators.forEach((decorator, name) => {
       const oldMethod = target[name]

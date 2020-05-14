@@ -8,5 +8,5 @@ export type TAfterMethod = (this: any, result: any, args: any[], context: TObj<a
 
 export type TJSONHook = [string, TObj<any>]
 
-export type TCreate = (target: any) => TDestroy | void
+export type TCreate = (target: any, context?: any) => TDestroy | void
 export type TDestroy = () => void
